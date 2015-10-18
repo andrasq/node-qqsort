@@ -78,6 +78,14 @@ module.exports = {
         })
     },
 
+    'should use the passed-in comparator': function(t) {
+        var a1 = [1, 2, 3]
+        qqsort(a1, function(a,b) { return (a < b) ? 1 : (a > b) ? -1 : 0 }, function(err) {
+            t.deepEqual(a1, [3,2,1])
+            t.done()
+        })
+    },
+
     'fuzz test: should sort 1000 arrays sized 100-400': function(t) {
         var nloops = 1000;
         function runSort() {
