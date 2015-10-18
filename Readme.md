@@ -30,13 +30,14 @@ errors thrown by the comparator.
 API
 ---
 
-### qqsort( array, comparator(e1, e2), callback(err [,array]) )
+### qqsort( array, [comparator(e1, e2),] callback(err [,array]) )
 
 Reorder the elements of the array in-place as established by the comparator
 function.
 
-The comparator is passed two array elements e1 and e2, and should return -1 if
-e1 is to precede e2, 1 if e1 is to follow e2, and 0 if they are the same.
+The comparator, if provided, will be passed array elements e1 and e2, and should
+return -1 if e1 is to precede e2, 1 if e1 is to follow e2, and 0 if they are the
+same.  The default comparator is `function(e1, e2) { return (e1 < e2) ? -1 : (e1 > e2) ? 1 : 0 }`
 
 The callback will be called with any error thrown by the comparator function
 and, for convenience, the modified input data array.
