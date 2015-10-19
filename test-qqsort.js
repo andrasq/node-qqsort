@@ -125,6 +125,7 @@ module.exports = {
             t.ifError()
             heartbeatDone = true
             // blocked: 100k 5ms, 200k 10ms, 500k 25ms, 1m 60-120ms, 10m 400-530ms
+            maxTick = Math.max(Date.now() - lastTick, maxTick)
             t.ok(maxTick < 20, "event loop blocked " + maxTick + " ms")
             for (var i=1; i<a1.length; i++) t.ok(a1[i-1] <= a1[i], "" + a1[i-1] + " v. " + a1[i])
             t.done()
