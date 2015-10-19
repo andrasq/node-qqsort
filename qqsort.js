@@ -73,7 +73,7 @@ function partition( array, first, last, compar, callback ) {
     catch (err) { return callback(err) }
 
     // chop up the callback stack, else stack size will be exceeded
-    if (callCount % 100 == 0) nextTick(function(){ callback(null, i, j) })
+    if (callCount % 100 == 0 || first - last > 10000) nextTick(function(){ callback(null, i, j) })
     else callback(null, i, j)
 }
 
