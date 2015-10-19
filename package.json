@@ -1,6 +1,6 @@
 {
     "name": "qqsort",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "fast, non-blocking quicksort",
     "license": "Apache-2.0",
     "main": "index.js",
@@ -16,5 +16,8 @@
     },
     "devDependencies": {
         "node-qunit": "0.7"
+    },
+    "scripts": {
+        "test": "qunit test-qqsort.js"
     }
 }
