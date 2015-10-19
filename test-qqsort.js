@@ -2,6 +2,8 @@
 
 var qqsort = require('./qqsort')
 
+var setImmediate = global.setImmediate || process.nextTick
+
 module.exports = {
     'should parse package': function(t) {
         require("./package.json")
