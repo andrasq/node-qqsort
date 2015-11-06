@@ -106,7 +106,15 @@ module.exports = {
         })
     },
 
-    'should not block event loop': function(t) {
+    'should sort numeric strings lexically': function(t) {
+        var a1 = ['1', '110', '1000', '100', '10']
+        qqsort(a1, function(err) {
+            t.deepEqual(a1, ['1', '10', '100', '1000', '110'])
+            t.done()
+        })
+    },
+
+    '100k should not block event loop for over 20 ms': function(t) {
         var a1 = []
         //for (var i=0; i<100000; i++) a1.push(100000-i)
         //for (var i=0; i<100000; i++) a1.push((Math.random() * 10000) >>> 0)
@@ -126,6 +134,7 @@ module.exports = {
             heartbeatDone = true
             // blocked: 100k 5ms, 200k 10ms, 500k 25ms, 1m 60-120ms, 10m 400-530ms
             maxTick = Math.max(Date.now() - lastTick, maxTick)
+            console.log("sort 100k event loop blocked %d ms", maxTick)
             t.ok(maxTick < 20, "event loop blocked " + maxTick + " ms")
             for (var i=1; i<a1.length; i++) t.ok(a1[i-1] <= a1[i], "" + a1[i-1] + " v. " + a1[i])
             t.done()
@@ -136,7 +145,8 @@ module.exports = {
         var nloops = 1000;
         function runSort() {
             var a1 = [], a2, nitems = 100 + Math.random() * 300
-            for (var i=0; i<nitems; i++) a1.push(Math.random() * 1000 >>> 0)
+            for (var i=0; i<nitems; i++) a1.push(Math.random() * 1000 >>> 0)            // random values
+            if (Math.random() < 0.5) for (var i=0; i<nitems; i++) a1[i] = "" + a1[i]    // sometimes strings
             a2 = a1.slice(0).sort(function(a,b) { return (a < b) ? -1 : (a > b) ? 1 : 0 })
             var t1 = Date.now()
             qqsort(a1, function(err) {
