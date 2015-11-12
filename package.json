@@ -1,6 +1,6 @@
 {
     "name": "qqsort",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "fast, non-blocking quicksort",
     "license": "Apache-2.0",
     "main": "index.js",

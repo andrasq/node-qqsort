@@ -21,6 +21,19 @@ module.exports = {
         t.done()
     },
 
+    'should sort without arguments': function(t) {
+        t.ok(Array.isArray(qqsort()))
+        t.deepEqual(qqsort(), [])
+        t.done()
+    },
+
+    'should sort without a comparator': function(t) {
+        qqsort([2,3,1], function(err, ret) {
+            t.deepEqual(ret, [1,2,3])
+            t.done()
+        })
+    },
+
     'should sort array 1': function(t) {
         var a1 = [1]
         qqsort(a1, function(err) {
