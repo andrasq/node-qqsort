@@ -129,6 +129,7 @@ module.exports = {
     'should sort 100k sorted values': function(t) {
         var a1 = []
         for (var i=0; i<100000; i++) a1.push(i)
+        //for (var i=0; i<100000; i++) a1.push(1)
         //for (var i=0; i<100000; i++) a1.push(100000-i)
         var compar = function(a,b) { return a < b ? -1 : a > b ? 1 : 0 }
         qqsort(a1.slice(), compar, function(err, ret) {
