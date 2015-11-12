@@ -162,4 +162,26 @@ module.exports = {
         runSort()
     },
 
+    'fuzz test: should sort 20 arrays each sized 0-400': function(t) {
+        var nitems = 0
+        function sortN() {
+            if (nitems >= 200) return t.done()
+            var nloops = 20
+            function runSort() {
+                var a1 = [], a2
+                for (var i=0; i<nitems; i++) a1.push(Math.random() * 1000 >>> 0)                // random values
+                a2 = a1.slice(0).sort(function(a,b) { return (a < b) ? -1 : (a > b) ? 1 : 0 })  // control
+                qqsort(a1, function(err) {
+                    t.ifError(err)
+                    t.deepEqual(a1, a2)
+                    if (--nloops > 0) return setImmediate(runSort)
+                    nitems += 1
+                    setImmediate(sortN)
+                })
+            }
+            runSort()
+        }
+        sortN(0)
+    },
+
 }
