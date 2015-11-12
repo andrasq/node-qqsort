@@ -1,0 +1,23 @@
+{
+    "name": "qqsort",
+    "version": "1.0.5",
+    "description": "fast, non-blocking quicksort",
+    "license": "Apache-2.0",
+    "main": "index.js",
+    "author": {
+        "name": "Andras",
+        "email": "andras@andrasq.com"
+    },
+    "repository": "git://github.com/andrasq/node-qqsort",
+    "keywords": [
+        "Andras", "nonblocking", "quicksort", "qsort", "yielding", "non-blocking", "quick", "sort"
+    ],
+    "depencencies": {
+    },
+    "devDependencies": {
+        "node-qunit": "0.7"
+    },
+    "scripts": {
+        "test": "qunit test-qqsort.js"
+    }
+}
