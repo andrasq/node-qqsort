@@ -13,6 +13,9 @@ module.exports = function qqsort( array, compar, callback ) {
     if (!callback && typeof compar === 'function') { callback = compar ; compar = null }
     if (!compar) compar = function(a,b) { return (a < b) ? -1 : (a > b) ? 1 : 0 }
 
+    // without an array to sort, use an empty array to fail gracefully
+    if (!Array.isArray(array)) array = []
+
     // without a callback, run the built-in sort
     if (!callback) return array.sort(compar)
 
