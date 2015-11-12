@@ -126,11 +126,20 @@ module.exports = {
         })
     },
 
+    'should sort 100k sorted values': function(t) {
+        var a1 = []
+        for (var i=0; i<100000; i++) a1.push(i)
+        //for (var i=0; i<100000; i++) a1.push(100000-i)
+        var compar = function(a,b) { return a < b ? -1 : a > b ? 1 : 0 }
+        qqsort(a1.slice(), compar, function(err, ret) {
+            t.ifError(err)
+            t.deepEqual(a1.sort(compar), ret)
+            t.done()
+        })
+    },
+
     '100k should not block event loop for over 20 ms': function(t) {
         var a1 = []
-        //for (var i=0; i<100000; i++) a1.push(100000-i)
-        //for (var i=0; i<100000; i++) a1.push((Math.random() * 10000) >>> 0)
-        //var compar = null
         for (var i=0; i<100000; i++) { var v = {} ; v['a'] = Math.random() * 10000 >>> 0 ; a1.push(v) }
         var compar = function(a,b) { return (a['a'] < b['a']) ? -1 : (a['a'] > b['a']) ? 1 : 0 }
         var lastTick = Date.now(), maxTick = 0
