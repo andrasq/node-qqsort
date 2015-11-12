@@ -114,6 +114,13 @@ module.exports = {
         })
     },
 
+    'should return errors thrown by the comparator': function(t) {
+        qqsort([2,1], function(a,b){ throw new Error("die") }, function(err, ret) {
+            t.equal(err.message, "die")
+            t.done()
+        })
+    },
+
     '100k should not block event loop for over 20 ms': function(t) {
         var a1 = []
         //for (var i=0; i<100000; i++) a1.push(100000-i)
