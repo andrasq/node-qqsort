@@ -70,6 +70,14 @@ module.exports = {
         })
     },
 
+    'should sort 5 idential with sloppy compar': function(t) {
+        var a = [{a:1}, {a:1}, {a:1}, {a:1}, {a:1}]
+        var compar = function(a,b) { return -1 }
+        qqsort(a, compar, function(err) {
+            t.done();
+        })
+    },
+
     'should sort array 2 sorted': function(t) {
         var a1 = [1, 2]
         qqsort(a1, function(err) {

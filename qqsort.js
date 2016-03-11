@@ -60,9 +60,9 @@ function partition( array, first, last, compar, callback ) {
     try {
         do {
             // advance to the next item on the l.h.s. larger than the pivot
-            while (compar(array[i], pivot) < 0) i++
+            while (i <= j && compar(array[i], pivot) < 0) i++
             // back up to the previous item on the r.h.s. smaller than the pivot
-            while (compar(array[j], pivot) > 0) j--
+            while (j >= i && compar(array[j], pivot) > 0) j--
             // swap out-of-order items, also swap (to advance past) duplicate pivots
             if (i < j) swap(array, i++, j--)
             else break
@@ -70,13 +70,12 @@ function partition( array, first, last, compar, callback ) {
     }
     catch (err) { return callback(err) }
 
-    // now that the pivot value(s) are all in the middle, move i,j to the edgemost pivots
-    // TODO: backing off the pivot values is less efficient than computing them directly
-    try {
-        while (i > first && compar(array[i], pivot) >= 0) i--;
-        while (j < last && compar(array[j], pivot) <= 0) j++;
-    }
-    catch (err) { return callback(err) }
+    // to guarantee progress, ensure that each partition is smaller than the input range.
+    // Tolerate a sloppy compar that always reports inequality -1 or 1, ie pivot != pivot
+    if (i > last) { i = last - 1; j = last; }                                           // all items less than pivot, equality reported as -1
+    else if (j < first) { i = first; j = first + 1; }                                   // all items greater than pivot, equality reported as 1
+    else if (i === j) { if (i > first) i = i - 1; else if (j < last) j = j + 1; }       // else met on pivot
+    else { i--; j++; }                                                                  // else crossed because have two proper sub-ranges
 
     // chop up the callback stack, else stack size will be exceeded
     if (callCount % 100 == 0 || first - last > 10000) nextTick(function(){ callback(null, i, j) })
