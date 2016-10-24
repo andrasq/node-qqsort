@@ -15,9 +15,9 @@
     "depencencies": {
     },
     "devDependencies": {
-        "node-qunit": "0.7"
+        "qnit": "0.13.0"
     },
     "scripts": {
-        "test": "qunit test-qqsort.js"
+        "test": "qnit test-qqsort.js"
     }
 }
