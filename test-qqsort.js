@@ -147,6 +147,13 @@ module.exports = {
         })
     },
 
+    'should return errors thrown by the comparator on longer arrays': function(t) {
+        qqsort([2,1,3], function(a,b){ throw new Error("die") }, function(err, ret) {
+            t.equal(err.message, "die")
+            t.done()
+        })
+    },
+
     'should sort 100k sorted values': function(t) {
         var a1 = []
         for (var i=0; i<100000; i++) a1.push(i)
