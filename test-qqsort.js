@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Andras Radics
+ * Copyright (C) 2015-2016 Andras Radics
  * Licensed under the Apache License, Version 2.0
  */
 
@@ -167,7 +167,7 @@ module.exports = {
         })
     },
 
-    '100k should not block event loop for over 20 ms': function(t) {
+    '100k should not block event loop for over 40 ms': function(t) {
         var a1 = []
         for (var i=0; i<100000; i++) { var v = {} ; v['a'] = Math.random() * 10000 >>> 0 ; a1.push(v) }
         var compar = function(a,b) { return (a['a'] < b['a']) ? -1 : (a['a'] > b['a']) ? 1 : 0 }
@@ -185,7 +185,8 @@ module.exports = {
             // blocked: 100k 5ms, 200k 10ms, 500k 25ms, 1m 60-120ms, 10m 400-530ms
             maxTick = Math.max(Date.now() - lastTick, maxTick)
             console.log("sort 100k event loop blocked %d ms", maxTick)
-            t.ok(maxTick < 20, "event loop blocked " + maxTick + " ms")
+            // node v4 and v5 blocked 8ms, v6.2 14ms, v6.9 21ms, so test for 40
+            t.ok(maxTick < 40, "event loop blocked " + maxTick + " ms")
             for (var i=1; i<a1.length; i++) t.ok(a1[i-1] <= a1[i], "" + a1[i-1] + " v. " + a1[i])
             t.done()
         })
