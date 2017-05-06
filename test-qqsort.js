@@ -186,7 +186,9 @@ module.exports = {
             maxTick = Math.max(Date.now() - lastTick, maxTick)
             console.log("sort 100k event loop blocked %d ms", maxTick)
             // node v4 and v5 blocked 8ms, v6.2 14ms, v6.9 21ms, so test for 40
-            t.ok(maxTick < 40, "event loop blocked " + maxTick + " ms")
+            if (!process.env.NODE_COVERAGE) {
+                t.ok(maxTick < 40, "event loop blocked " + maxTick + " ms")
+            }
             for (var i=1; i<a1.length; i++) t.ok(a1[i-1] <= a1[i], "" + a1[i-1] + " v. " + a1[i])
             t.done()
         })
