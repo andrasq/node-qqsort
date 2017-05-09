@@ -20,7 +20,6 @@
     "scripts": {
         "test": "qnit -t 10000 test-qqsort.js",
         "coverage": "nyc --reporter lcov --reporter text env NODE_COVERAGE=1 npm run test",
-        "clean": "rm -rf .nyc_output coverage",
-        "coveralls": "nyc --reporter text-lcov npm run test | coveralls"
+        "clean": "rm -rf .nyc_output coverage"
     }
 }
