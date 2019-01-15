@@ -38,6 +38,13 @@ function sortit( array, first, last, compar, callback ) {
         try { if (compar(array[first], array[last]) > 0) swap(array, first, last) } catch (err) { return callback(err) }
         return callback()
     }
+    // special-case short arrays
+    if (last - first <= 10) {
+        var arr = copyout(array, first, last, new Array(last - first + 1))
+        try { arr.sort(compar) } catch (err) { return callback(err) }
+        copyin(array, first, last, arr)
+        return callback()
+    }
 
     partition(array, first, last, compar, function(err, p, q) {
         if (err) return callback(err)
@@ -48,14 +55,30 @@ function sortit( array, first, last, compar, callback ) {
     })
 }
 
+function copyout( array, first, last, dst ) {
+    for (var i=first; i<= last; i++) dst[i - first] = array[i]
+    return dst
+}
+
+function copyin( array, first, last, src ) {
+    for (var i=first; i<= last; i++) array[i] = src[i - first]
+    return array
+}
+
 // partition the array s.t. the l.h.s. is all < pivot and r.h.s. all > pivot
 // return the first and last location of the pivot(s)
 var callCount = 0
 function partition( array, first, last, compar, callback ) {
+    // TODO: pick a pivot faster than with random()
     var i = first, j = last, p = first + Math.floor(Math.random() * (last - first + 1))
     var t, pivot = array[p]
 
     callCount += 1
+
+//
+// TODO: see if can make work with sloppy compar() that only return -1 or 1 (never 0 equality)
+// Currently breaks every now and then in 1000 sorts fuzz test on line 219.
+//
 
     try {
         do {
@@ -67,8 +90,7 @@ function partition( array, first, last, compar, callback ) {
             if (i < j) swap(array, i++, j--)
             else break
         } while (true)
-    }
-    catch (err) { return callback(err) }
+    } catch (err) { return callback(err) }
 
     // to guarantee progress, ensure that each partition is smaller than the input range.
     // Tolerate a sloppy compar that always reports inequality -1 or 1, ie pivot != pivot

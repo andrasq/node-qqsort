@@ -74,7 +74,7 @@ module.exports = {
         var a = [{a:1}, {a:1}, {a:1}, {a:1}, {a:1}]
         var compar = function(a,b) { return -1 }
         qqsort(a, compar, function(err) {
-            t.done();
+            t.done()
         })
     },
 
@@ -147,10 +147,21 @@ module.exports = {
         })
     },
 
-    'should return errors thrown by the comparator on longer arrays': function(t) {
-        qqsort([2,1,3], function(a,b){ throw new Error("die") }, function(err, ret) {
+    'should return errors thrown by the comparator on mid-length arrays': function(t) {
+        var ncalls = 0
+        qqsort([2,1,3,4,5,6,7,8,9,10], function(a,b){ throw new Error("die") }, function(err, ret) {
             t.equal(err.message, "die")
             t.done()
+        })
+    },
+
+    'should return errors thrown by the comparator on longer arrays': function(t) {
+        qqsort([2,1,3,4,5,6,7,8,9,10,11,12,13], function(a,b){ throw new Error("die") }, function(err, ret) {
+            t.equal(err.message, "die")
+            var ncalls = 0
+            qqsort([2,1,3,4,5,6,7,8,9,10,11,12,13], function(a,b){ if (ncalls++ >= 15) throw new Error("die") }, function(err, ret) {
+                t.done()
+            })
         })
     },
 
@@ -195,11 +206,12 @@ module.exports = {
     },
 
     'fuzz test: should sort 1000 arrays sized 100-400': function(t) {
-        var nloops = 1000;
+        var nloops = 1000
         function runSort() {
             var a1 = [], a2, nitems = 100 + Math.random() * 300
             for (var i=0; i<nitems; i++) a1.push(Math.random() * 1000 >>> 0)            // random values
             if (Math.random() < 0.5) for (var i=0; i<nitems; i++) a1[i] = "" + a1[i]    // sometimes strings
+            // use an explicit comparator, else node sorts [2, 11] into alpha order [11, 2]
             a2 = a1.slice(0).sort(function(a,b) { return (a < b) ? -1 : (a > b) ? 1 : 0 })
             var t1 = Date.now()
             qqsort(a1, function(err) {
