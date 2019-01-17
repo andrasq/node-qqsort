@@ -11,5 +11,5 @@ before_install:
 after_success:
   - if [ `node -p 'process.version.slice(0, 3)'` != "v8." ]; then exit; fi
   - npm install -g nyc codecov coveralls
-  - nyc --reporter lcov npm test && codecov
+  - nyc -r text -r lcov npm test && codecov
   - nyc report -r text-lcov | coveralls
