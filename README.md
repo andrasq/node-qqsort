@@ -48,7 +48,11 @@ and, for convenience, the modified input data array.
 Changelog
 ---------
 
-- 1.0.9 - 40% faster and less blocking with special-cased short arrays
+- 1.0.9 - 40% faster and less blocking by special-casing short arrays
+- 1.0.5 - fail gracefully if not passed an array
+- 1.0.4 - also support node v0.8
+- 1.0.2 - yield more often
+- 1.0.0 - initial version
 
 Related Work
 ------------
