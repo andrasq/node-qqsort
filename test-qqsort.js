@@ -5,7 +5,7 @@
 
 'use strict'
 
-var qqsort = require('./qqsort')
+var qqsort = require('./')
 
 var setImmediate = global.setImmediate || process.nextTick
 
@@ -16,7 +16,7 @@ module.exports = {
     },
 
     'should export qqsort': function(t) {
-        var idx = require("./index")
+        var idx = require("./" + require("./package").main);
         t.equal(idx, qqsort)
         t.done()
     },
@@ -249,4 +249,45 @@ module.exports = {
         sortN(0)
     },
 
+    'edge cases': {
+        'should sort degenerate long arrays with partial sort compar': function(t) {
+            var arr = [1,1,1,1,1,1,1,1,1,1,1,1];
+            qqsort(arr, function(a,b){ return a < b ? -1 : 1 }, function(err, ret) {
+                t.ifError(err);
+                t.deepEqual(ret, arr);
+                qqsort(arr, function(a,b) { return a <= b ? -1 : 1 }, function(err, ret) {
+                    t.ifError(err);
+                    t.deepEqual(ret, arr);
+                    t.done();
+                })
+            })
+        },
+
+        'should work without node setImmediate': function(t) {
+            t.unrequire('./');
+            var setImmediate = global.setImmediate;
+            delete global.setImmediate;
+            var qqsort = require('./');
+            var arr = [];
+            for (var i=0; i<1000; i++) arr[i] = 1000 - 1 - i;
+            qqsort(arr, function(err, sorted) {
+                global.setImmediate = setImmediate;
+                t.deepEqual(sorted, arr.reverse());
+                t.done();
+            })
+        },
+
+        'sort should succeed each time': function(t) {
+            // test the random pivot selection, try to ensure that
+            var arr = [];
+            for (var i=0; i<10; i++) arr.push(3);
+            arr.push(2);
+            for (var i=0; i<10; i++) arr.push(1);
+            var ndone = 0;
+            for (var i=0; i<1000; i++) qqsort(arr, function(err, sorted) {
+                t.deepEqual(sorted, arr.sort());
+                if (++ndone === 1000) return t.done();
+            })
+        },
+    },
 }
