@@ -251,7 +251,7 @@ module.exports = {
 
     'edge cases': {
         'should sort degenerate long arrays with partial sort compar': function(t) {
-            var arr = [1,1,1,1,1,1,1,1,1,1,1,1];
+            var arr = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
             qqsort(arr, function(a,b){ return a < b ? -1 : 1 }, function(err, ret) {
                 t.ifError(err);
                 t.deepEqual(ret, arr);

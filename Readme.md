@@ -45,6 +45,11 @@ The callback will be called with any error thrown by the comparator function
 and, for convenience, the modified input data array.
 
 
+Changelog
+---------
+
+- 1.0.9 - 40% faster and less blocking with special-cased short arrays
+
 Related Work
 ------------
 

@@ -39,7 +39,7 @@ function sortit( array, first, last, compar, callback ) {
         return callback()
     }
     // special-case short arrays
-    if (last - first <= 10) {
+    if (last - first <= 20) {
         var arr = copyout(array, first, last, new Array(last - first + 1))
         try { arr.sort(compar) } catch (err) { return callback(err) }
         copyin(array, first, last, arr)
