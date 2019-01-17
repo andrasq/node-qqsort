@@ -4,19 +4,13 @@
     "description": "fast, non-blocking quicksort",
     "license": "Apache-2.0",
     "main": "qqsort.js",
-    "author": {
-        "name": "Andras",
-        "email": "andras@andrasq.com"
-    },
-    "repository": "git://github.com/andrasq/node-qqsort",
+    "author": "git://github.com/andrasq/",
+    "repository": { "type": "git", "url": "git://github.com/andrasq/node-qqsort" },
+    "readme": "see Readme.md in the repo",
     "keywords": [
         "Andras", "nonblocking", "quicksort", "qsort", "yielding", "non-blocking", "quick", "sort"
     ],
-    "depencencies": {
-    },
-    "devDependencies": {
-        "qnit": "0.13.0"
-    },
+
     "scripts": {
         "test": "qnit -t 10000 test-qqsort.js",
         "coverage": "nyc --reporter lcov --reporter text env NODE_COVERAGE=1 npm run test",
