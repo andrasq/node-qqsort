@@ -96,7 +96,7 @@ function partition( array, first, last, compar, callback ) {
     // Tolerate a sloppy compar that always reports inequality -1 or 1, ie pivot != pivot
     if (i > last) { i = last - 1; j = last; }                                           // all items less than pivot, equality reported as -1
     else if (j < first) { i = first; j = first + 1; }                                   // all items greater than pivot, equality reported as 1
-    else if (i === j) { if (i > first) i = i - 1; else if (j < last) j = j + 1; }       // else met on pivot
+    else if (i === j) { if (i > first) i = i - 1; if (j < last) j = j + 1; }            // met on (a) pivot
     else { i--; j++; }                                                                  // else crossed because have two proper sub-ranges
 
     // chop up the callback stack, else stack size will be exceeded
