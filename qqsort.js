@@ -67,13 +67,13 @@ function copyin( array, first, last, src ) {
 
 // partition the array s.t. the l.h.s. is all < pivot and r.h.s. all > pivot
 // return the first and last location of the pivot(s)
-var stepCount = 0;
+var stepCount = 0
 function partition( array, first, last, compar, callback ) {
     // TODO: pick a pivot faster than with random()
     var i = first, j = last, p = first + Math.floor(Math.random() * (last - first + 1))
     var t, pivot = array[p]
 
-    stepCount += last - first + 1;
+    stepCount += last - first + 1
 
 //
 // TODO: see if can make work with sloppy compar() that only return -1 or 1 (never 0 equality)

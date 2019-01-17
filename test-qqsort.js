@@ -16,7 +16,7 @@ module.exports = {
     },
 
     'should export qqsort': function(t) {
-        var idx = require("./" + require("./package").main);
+        var idx = require("./" + require("./package").main)
         t.equal(idx, qqsort)
         t.done()
     },
@@ -149,17 +149,22 @@ module.exports = {
 
     'should return errors thrown by the comparator on mid-length arrays': function(t) {
         var ncalls = 0
-        qqsort([2,1,3,4,5,6,7,8,9,10], function(a,b){ throw new Error("die") }, function(err, ret) {
+        var arr = [2,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
+        qqsort(arr, function(a,b){ throw new Error("die") }, function(err, ret) {
             t.equal(err.message, "die")
             t.done()
         })
     },
 
     'should return errors thrown by the comparator on longer arrays': function(t) {
-        qqsort([2,1,3,4,5,6,7,8,9,10,11,12,13], function(a,b){ throw new Error("die") }, function(err, ret) {
+        var arr = [2,1,3];
+        for (var i=4; i<60; i++) arr.push(i);
+        // time first error so it occurs during partitioning
+        qqsort(arr, function(a,b){ throw new Error("die") }, function(err, ret) {
             t.equal(err.message, "die")
             var ncalls = 0
-            qqsort([2,1,3,4,5,6,7,8,9,10,11,12,13], function(a,b){ if (ncalls++ >= 15) throw new Error("die") }, function(err, ret) {
+            // time second error so it occurs when sorting the first partition
+            qqsort(arr, function(a,b){ if (ncalls++ >= 65) throw new Error("die") }, function(err, ret) {
                 t.done()
             })
         })
@@ -251,42 +256,42 @@ module.exports = {
 
     'edge cases': {
         'should sort degenerate long arrays with partial sort compar': function(t) {
-            var arr = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+            var arr = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
             qqsort(arr, function(a,b){ return a < b ? -1 : 1 }, function(err, ret) {
-                t.ifError(err);
-                t.deepEqual(ret, arr);
+                t.ifError(err)
+                t.deepEqual(ret, arr)
                 qqsort(arr, function(a,b) { return a <= b ? -1 : 1 }, function(err, ret) {
-                    t.ifError(err);
-                    t.deepEqual(ret, arr);
-                    t.done();
+                    t.ifError(err)
+                    t.deepEqual(ret, arr)
+                    t.done()
                 })
             })
         },
 
         'should work without node setImmediate': function(t) {
-            t.unrequire('./');
-            var setImmediate = global.setImmediate;
-            delete global.setImmediate;
-            var qqsort = require('./');
-            var arr = [];
-            for (var i=0; i<1000; i++) arr[i] = 1000 - 1 - i;
+            t.unrequire('./')
+            var setImmediate = global.setImmediate
+            delete global.setImmediate
+            var qqsort = require('./')
+            var arr = []
+            for (var i=0; i<1000; i++) arr[i] = 1000 - 1 - i
             qqsort(arr, function(err, sorted) {
-                global.setImmediate = setImmediate;
-                t.deepEqual(sorted, arr.reverse());
-                t.done();
+                global.setImmediate = setImmediate
+                t.deepEqual(sorted, arr.reverse())
+                t.done()
             })
         },
 
         'sort should succeed each time': function(t) {
             // test the random pivot selection, try to ensure that
-            var arr = [];
-            for (var i=0; i<10; i++) arr.push(3);
-            arr.push(2);
-            for (var i=0; i<10; i++) arr.push(1);
-            var ndone = 0;
+            var arr = []
+            for (var i=0; i<10; i++) arr.push(3)
+            arr.push(2)
+            for (var i=0; i<10; i++) arr.push(1)
+            var ndone = 0
             for (var i=0; i<1000; i++) qqsort(arr, function(err, sorted) {
-                t.deepEqual(sorted, arr.sort());
-                if (++ndone === 1000) return t.done();
+                t.deepEqual(sorted, arr.sort())
+                if (++ndone === 1000) return t.done()
             })
         },
     },
