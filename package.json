@@ -6,7 +6,7 @@
     "main": "qqsort.js",
     "author": "git://github.com/andrasq/",
     "repository": { "type": "git", "url": "git://github.com/andrasq/node-qqsort" },
-    "readme": "see Readme.md in the repo",
+    "readme": "see README.md in the repo",
     "keywords": [
         "Andras", "nonblocking", "quicksort", "qsort", "yielding", "non-blocking", "quick", "sort"
     ],
