@@ -1,8 +1,7 @@
 qqsort
 ======
-
 [![Build Status](https://travis-ci.org/andrasq/node-qqsort.svg?branch=master)](https://travis-ci.org/andrasq/node-qqsort?branch=master)
-[![Coverage Status](https://codecov.io/github/andrasq/node-qqsort/coverage.svg?branch=master)](https://codecov.io/github/andrasq/node-qqsort?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/andrasq/node-qqsort/badge.svg?branch=master)](https://coveralls.io/github/andrasq/node-qqsort?branch=master)
 
 quick, non-blocking quicksort
 
